@@ -1,0 +1,48 @@
+# Dependency directories
+node_modules/
+
+# Next.js build output
+grantha_web/.next/
+grantha_web/out/
+
+# Prisma generated files
+grantha_web/prisma/dev.db
+grantha_web/prisma/migrations/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Temporary files
+*.log
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env.local
+
+# Temporary files
+*.swp
+*.swo
+*~
