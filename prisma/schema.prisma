@@ -1,0 +1,100 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  books         UserBook[]
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Book {
+  id            String    @id @default(cuid())
+  title         String
+  author        String
+  description   String?
+  coverImageUrl String?
+  genres        String?   // Store as JSON string
+  tags          String?   // Store as JSON string
+  metadata      String?   // Store additional book metadata as JSON
+  
+  chapters      Chapter[]
+  userBooks     UserBook[]
+  
+  @@unique([title, author])
+}
+
+model Chapter {
+  id            String   @id @default(cuid())
+  bookId        String
+  chapterNumber String   // Can be numeric or Roman numeral
+  title         String
+  content       String   // Full chapter content
+  
+  book          Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  
+  @@unique([bookId, chapterNumber])
+}
+
+model UserBook {
+  id            String   @id @default(cuid())
+  userId        String
+  bookId        String
+  readingStatus String   @default("not_started") // "reading", "completed", "not_started"
+  currentPage   Int      @default(0)
+  bookmarks     Json?
+  notes         Json?
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, bookId])
+}

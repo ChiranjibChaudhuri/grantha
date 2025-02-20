@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Bookerly&family=Merriweather:wght@300;400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f5f5dc; /* Paper-like background */
+  --foreground: #333333;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -15,7 +17,7 @@
 }
 
 body {
+  font-family: 'Bookerly', 'Merriweather', serif;
+  background-color: var(--background);
   color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
 }
